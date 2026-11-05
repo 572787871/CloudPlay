@@ -1,0 +1,14 @@
+.DS_Store
+server/.env
+server/config/Caddyfile
+server/data/
+server/private/
+server/backups/
+server/logs/
+**/__pycache__/
+*.pyc
+build/
+Pods/
+*.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+private/

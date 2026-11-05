@@ -1,0 +1,36 @@
+name: CloudPlay 服务端检查
+on:
+  workflow_dispatch:
+  push:
+    paths: ["server/**", ".github/workflows/server.yml"]
+  pull_request:
+    paths: ["server/**", ".github/workflows/server.yml"]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Python 单元测试与脚本检查
+        run: |
+          python3 -m unittest discover -s server/tests -v
+          python3 -m compileall -q server/scripts server/aria2
+          for script in server/scripts/*.sh; do bash -n "$script"; done
+      - name: 实际拉取并验证 ARM64 镜像
+        run: |
+          for image in openlistteam/openlist:v4.2.9 caddy:2.11.8 debian:13-slim; do
+            docker pull --platform linux/arm64 "$image"
+            test "$(docker image inspect "$image" --format '{{.Architecture}}')" = arm64
+          done
+      - name: 构建真实 Aria2 镜像
+        run: |
+          set -o pipefail
+          docker build --platform linux/arm64 -t cloudplay/aria2:ci server/aria2 2>&1 | tee aria2-build.log
+          docker run --rm --entrypoint aria2c cloudplay/aria2:ci --version
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: CloudPlay-server-build-log
+          path: aria2-build.log

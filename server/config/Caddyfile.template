@@ -1,0 +1,37 @@
+{
+    admin localhost:2019
+    # 现有 nginx 模式将 ACME HTTP-01 请求转发到本容器的 80 端口。
+    servers {
+        protocols h1 h2
+    }
+}
+__DOMAIN__ {
+    header {
+        X-Content-Type-Options nosniff
+        Referrer-Policy no-referrer
+    }
+    handle /healthz {
+        respond "CloudPlay" 200
+    }
+    handle /rpc {
+        basic_auth {
+            cloudplay __RPC_PASSWORD_HASH__
+        }
+        @notpost not method POST
+        respond @notpost 405
+        request_body {
+            max_size 16MB
+        }
+        rewrite * /jsonrpc
+        reverse_proxy aria2:6800
+    }
+    handle /jsonrpc* {
+        respond 404
+    }
+    handle /metrics* {
+        respond 404
+    }
+    handle {
+        reverse_proxy openlist:5244
+    }
+}

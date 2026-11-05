@@ -1,0 +1,81 @@
+name: cloudplay
+x-logging: &logging
+  driver: json-file
+  options:
+    max-size: 10m
+    max-file: "3"
+services:
+  aria2:
+    image: cloudplay/aria2:1.37-debian13-local
+    build:
+      context: ./aria2
+      args:
+        BASE_IMAGE: ${DEBIAN_IMAGE:?请先运行 scripts/install.py}
+    user: "${APP_UID:-10001}:${APP_GID:-10001}"
+    volumes:
+      - ./data/aria2:/config
+      - ./data/downloads:/downloads
+      - ./data/aria2-temp:/opt/openlist/data/temp/aria2
+    ports:
+      - "${BT_PORT:-51425}:51425/tcp"
+      - "${BT_PORT:-51425}:51425/udp"
+    restart: unless-stopped
+    stop_grace_period: 60s
+    read_only: true
+    tmpfs: ["/tmp:size=32m,mode=1777"]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 512m
+    pids_limit: 128
+    healthcheck:
+      test: [CMD, python3, /app/health.py]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    logging: *logging
+    networks: [cloudplay]
+  openlist:
+    image: ${OPENLIST_IMAGE:?请先运行 scripts/install.py}
+    user: "${APP_UID:-10001}:${APP_GID:-10001}"
+    environment:
+      TZ: Asia/Shanghai
+      UMASK: "007"
+      RUN_ARIA2: "false"
+    volumes:
+      - ./data/openlist:/opt/openlist/data
+      - ./data/downloads:/downloads
+      - ./data/aria2-temp:/opt/openlist/data/temp/aria2
+    restart: unless-stopped
+    stop_grace_period: 30s
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 512m
+    pids_limit: 128
+    healthcheck:
+      test: [CMD-SHELL, "wget -q -O /dev/null http://127.0.0.1:5244/api/public/settings"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    logging: *logging
+    networks: [cloudplay]
+  caddy:
+    image: ${CADDY_IMAGE:?请先运行 scripts/install.py}
+    ports:
+      - "${HTTP_BIND:-0.0.0.0}:${HTTP_PORT:-80}:80"
+      - "${HTTPS_BIND:-0.0.0.0}:${HTTPS_PORT:-443}:443"
+    volumes:
+      - ./config/Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./data/caddy:/data
+      - ./data/caddy-config:/config
+    restart: unless-stopped
+    cap_drop: [ALL]
+    cap_add: [NET_BIND_SERVICE]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 128m
+    pids_limit: 128
+    logging: *logging
+    networks: [cloudplay]
+networks:
+  cloudplay: {}
