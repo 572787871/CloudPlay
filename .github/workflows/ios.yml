@@ -56,8 +56,9 @@ jobs:
           TEST_RUNNER_CLOUDPLAY_TEST_PASSWORD: ${{ secrets.CLOUDPLAY_TEST_PASSWORD }}
         run: |
           set -o pipefail
-          SIM_ID=$(xcrun simctl list devices available -j | python3 -c 'import json,sys; d=json.load(sys.stdin); print(next(x["udid"] for a in d["devices"].values() for x in a if x["name"].startswith("iPhone")))')
-          xcodebuild test -workspace CloudPlay.xcworkspace -scheme CloudPlay -configuration Debug -parallel-testing-enabled NO -test-timeouts-enabled YES -default-test-execution-time-allowance 90 -maximum-test-execution-time-allowance 120 -destination "platform=iOS Simulator,id=$SIM_ID" -derivedDataPath build/Simulator -resultBundlePath build/CloudPlayTests.xcresult CODE_SIGNING_ALLOWED=NO 2>&1 | tee build/logs/ios-tests.log
+          python3 Scripts/prepare_simulator.py 2>&1 | tee build/logs/simulator-boot.log
+          SIM_ID=$(cat build/simulator-id)
+          xcodebuild test -workspace CloudPlay.xcworkspace -scheme CloudPlay -configuration Debug -parallel-testing-enabled NO -test-timeouts-enabled YES -default-test-execution-time-allowance 90 -maximum-test-execution-time-allowance 120 -destination "platform=iOS Simulator,id=$SIM_ID" -derivedDataPath build/Simulator -resultBundlePath build/CloudPlayTests.xcresult CODE_SIGNING_ALLOWED=YES CODE_SIGN_IDENTITY=- 2>&1 | tee build/logs/ios-tests.log
       - name: 导出真实测试结果与截图
         if: always()
         run: |
