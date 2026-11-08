@@ -47,3 +47,8 @@ python3 Scripts/package_ipa.py build/Device/Build/Products/Release-iphoneos/Clou
 模拟器名称以本机实际安装为准。`Scripts/generate_project.rb` 是工程重建工具，已有工程需显式传 `--regenerate`，之后重新 `pod install`。打包脚本检查真机平台、arm64、扩展及第三方依赖，失败就停止；不会把模拟器 App 当作 IPA。
 
 MobileVLCKit 固定真实 CocoaPods 版本 3.7.5；完整 LGPL 2.1 声明随 App 和源码提供。公开 App 源码及构建脚本可用于修改 LGPL 库后重新链接，详见 `App/Resources/ThirdPartyNotices.txt`。升级 SDK 后须重新验证其 API 与架构，不能直接拿主分支 4.0 API 套入 3.x 二进制。
+
+
+## 可选真实 VPS 联调测试
+
+`LiveIntegrationTests` 使用隔离普通账号执行真实文件操作、并发 Range 与 HTTPS MP4 播放 Seek。临时账号的 `base_path` 必须限制到专用测试目录，目录内放入 `Tests/Fixtures/generated.mp4`；不得使用管理员或个人文件目录。GitHub Secrets 仅配置 `CLOUDPLAY_TEST_USER` 和 `CLOUDPLAY_TEST_PASSWORD`；通过 Apple 的 `TEST_RUNNER_` 环境传递机制传入 XCTest，不作为构建参数或写进 App。没有临时账号时这 2 项测试明确跳过，其余离线测试照常执行。测试结束应删除账号、隔离目录与这两个 Secrets；不得把跳过记为联调通过。

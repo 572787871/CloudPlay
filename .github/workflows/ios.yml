@@ -9,23 +9,19 @@ concurrency:
   group: cloudplay-ios-intel-${{ github.ref }}
   cancel-in-progress: true
 jobs:
-  build:
+  device:
     runs-on: macos-26-intel
-    timeout-minutes: 50
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
-      - name: 环境和真实依赖
+      - name: 安装真实播放器依赖
         run: |
           set -o pipefail
           mkdir -p build/logs
           xcodebuild -version | tee build/logs/xcode-version.log
           pod install --repo-update 2>&1 | tee build/logs/pod-install.log
-      - name: 运行 iOS 单元测试
-        run: |
-          set -o pipefail
-          SIM_ID=$(xcrun simctl list devices available -j | python3 -c 'import json,sys; d=json.load(sys.stdin); print(next(x["udid"] for a in d["devices"].values() for x in a if x["name"].startswith("iPhone")))')
-          xcodebuild test -workspace CloudPlay.xcworkspace -scheme CloudPlay -configuration Debug -destination "platform=iOS Simulator,id=$SIM_ID" -derivedDataPath build/Simulator -resultBundlePath build/CloudPlayTests.xcresult CODE_SIGNING_ALLOWED=NO 2>&1 | tee build/logs/ios-tests.log
-      - name: 编译 iOS arm64 真机产物
+      - name: 编译并验证 iOS arm64 IPA
+        id: package
         run: |
           set -o pipefail
           xcodebuild build -workspace CloudPlay.xcworkspace -scheme CloudPlay -configuration Release -destination 'generic/platform=iOS' -derivedDataPath build/Device CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO 2>&1 | tee build/logs/ios-device.log
@@ -33,15 +29,48 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: CloudPlay-build-logs
+          name: CloudPlay-device-build-logs
           path: |
             Podfile.lock
             build/logs/
-            build/CloudPlayTests.xcresult
-          if-no-files-found: warn
       - uses: actions/upload-artifact@v4
-        if: success()
+        if: steps.package.outcome == 'success'
         with:
           name: CloudPlay-unsigned-IPA
           path: build/CloudPlay-unsigned.ipa
           if-no-files-found: error
+  tests:
+    runs-on: macos-26-intel
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: 安装依赖
+        run: |
+          set -o pipefail
+          mkdir -p build/logs
+          pod install --repo-update 2>&1 | tee build/logs/pod-install.log
+      - name: 运行 iOS 单元、联调与界面测试
+        env:
+          TEST_RUNNER_CLOUDPLAY_TEST_BASE: https://cl.520123.xyz
+          TEST_RUNNER_CLOUDPLAY_TEST_USER: ${{ secrets.CLOUDPLAY_TEST_USER }}
+          TEST_RUNNER_CLOUDPLAY_TEST_PASSWORD: ${{ secrets.CLOUDPLAY_TEST_PASSWORD }}
+        run: |
+          set -o pipefail
+          SIM_ID=$(xcrun simctl list devices available -j | python3 -c 'import json,sys; d=json.load(sys.stdin); print(next(x["udid"] for a in d["devices"].values() for x in a if x["name"].startswith("iPhone")))')
+          xcodebuild test -workspace CloudPlay.xcworkspace -scheme CloudPlay -configuration Debug -parallel-testing-enabled NO -test-timeouts-enabled YES -default-test-execution-time-allowance 90 -maximum-test-execution-time-allowance 120 -destination "platform=iOS Simulator,id=$SIM_ID" -derivedDataPath build/Simulator -resultBundlePath build/CloudPlayTests.xcresult CODE_SIGNING_ALLOWED=NO 2>&1 | tee build/logs/ios-tests.log
+      - name: 导出真实测试结果与截图
+        if: always()
+        run: |
+          if [ -d build/CloudPlayTests.xcresult ]; then
+            xcrun xcresulttool get test-results summary --path build/CloudPlayTests.xcresult > build/logs/test-summary.json
+            xcrun xcresulttool export attachments --path build/CloudPlayTests.xcresult --output-path build/screenshots
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: CloudPlay-test-logs
+          path: |
+            build/logs/
+            build/CloudPlayTests.xcresult
+            build/screenshots/
+          if-no-files-found: warn

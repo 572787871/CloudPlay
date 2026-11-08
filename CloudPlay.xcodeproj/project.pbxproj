@@ -32,6 +32,7 @@
 		CEE0F1FE46F30CC3474A90A5 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321897C647EBE76700945FFC /* HistoryView.swift */; };
 		D5AF81CF4430EBD52F220DAA /* CloudPlayApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3019DD3E9133BC3E63FA2FF8 /* CloudPlayApp.swift */; };
 		DA5A4CF8195A07CB898FA8B1 /* LGPL-2.1.txt in Resources */ = {isa = PBXBuildFile; fileRef = 80839E29FF2BDC25B4F55F98 /* LGPL-2.1.txt */; };
+		DCC2E34581F9B031880E4DD1 /* LiveIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1814575FEBE606E07B19E7F2 /* LiveIntegrationTests.swift */; };
 		DD79F556205FBE13801DE2CA /* PlayerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8374FA208B16208BF1ADB748 /* PlayerModel.swift */; };
 		ED1A6D817ABA35B26FF13A81 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBDF1607E680FB7DD00059B /* API.swift */; };
 		F792C914FF2CE87C57EF209D /* generated.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 898DFFBCF8DE40B43F296519 /* generated.mp4 */; };
@@ -79,6 +80,7 @@
 		06F4D969397415DCA37084BC /* TransferManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TransferManager.swift; path = Core/TransferManager.swift; sourceTree = "<group>"; };
 		08AEBFFB1E673EB649A62B31 /* DownloadsView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DownloadsView.swift; path = Features/DownloadsView.swift; sourceTree = "<group>"; };
 		0BCF15F0947027708030125B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		1814575FEBE606E07B19E7F2 /* LiveIntegrationTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LiveIntegrationTests.swift; sourceTree = "<group>"; };
 		2630CDE53A940FA0C8CC88FE /* ValidationTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ValidationTests.swift; sourceTree = "<group>"; };
 		29B7DAE2A3667C39484E0A48 /* SettingsView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SettingsView.swift; path = Features/SettingsView.swift; sourceTree = "<group>"; };
 		3019DD3E9133BC3E63FA2FF8 /* CloudPlayApp.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CloudPlayApp.swift; sourceTree = "<group>"; };
@@ -249,6 +251,7 @@
 				E472F7A80DFF7A06280FC0A0 /* PlaybackEngineTests.swift */,
 				2630CDE53A940FA0C8CC88FE /* ValidationTests.swift */,
 				BFE3DCF0F3A3AB8F0C38EB49 /* Fixtures */,
+				1814575FEBE606E07B19E7F2 /* LiveIntegrationTests.swift */,
 			);
 			name = Tests;
 			path = Tests;
@@ -425,6 +428,7 @@
 				88BED29C73DF4E689B739694 /* APITests.swift in Sources */,
 				B77DDCAA84B0017F195572B9 /* PlaybackEngineTests.swift in Sources */,
 				9384B7D9A2A8C9526A8A91AF /* ValidationTests.swift in Sources */,
+				DCC2E34581F9B031880E4DD1 /* LiveIntegrationTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
