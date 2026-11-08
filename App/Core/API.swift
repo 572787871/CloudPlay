@@ -44,9 +44,15 @@ actor OpenListClient {
             throw CloudError.authentication
         }
         if http.statusCode == 403 || value?.code == 403 { throw CloudError.permission }
+        if path == "/api/fs/get", http.statusCode == 404 { throw CloudError.fileNotFound }
         guard (200..<300).contains(http.statusCode) else { throw CloudError.server(http.statusCode) }
         guard let value else { throw CloudError.message("无法识别 OpenList 响应，请核对服务器地址。") }
         guard value.code == 200 else {
+            let message = value.message?.lowercased() ?? ""
+            if value.code == 404 || (path == "/api/fs/get" && value.code == 500 &&
+                ["object not found", "no such file or directory", "storage not found", "storage not exists"].contains(where: message.contains)) {
+                throw CloudError.fileNotFound
+            }
             if value.message?.localizedCaseInsensitiveContains("space") == true { throw CloudError.message("服务器存储空间不足。") }
             throw CloudError.server(value.code)
         }
@@ -62,6 +68,22 @@ actor OpenListClient {
         try await perform("/api/fs/search",payload:["parent":.string(path),"keywords":.string(keyword),"scope":.number(0),"page":.number(1),"per_page":.number(100),"password":.string("")])
     }
     func detail(_ path: String) async throws -> FileDetail { try await perform("/api/fs/get",payload:["path":.string(path),"password":.string("")]) }
+    /// Resolves web-created offline tasks as well as native tasks. Never masks authentication/network errors.
+    func completedFilePath(_ file: TorrentFile, task: DownloadTask) async throws -> String {
+        let paths = DownloadFileLocation.candidates(file:file, task:task, profile:profile)
+        guard !paths.isEmpty else { throw CloudError.message("此任务尚未完成，或文件不在已配置的共享下载目录内。") }
+        for path in paths {
+            try Task.checkCancellation()
+            do {
+                let info = try await detail(path)
+                guard info.is_dir != true, let size = info.size, size == Int64(file.length) else {
+                    throw CloudError.message("云盘文件大小与下载任务不一致，可能仍在转存；请稍后重试。")
+                }
+                return path
+            } catch CloudError.fileNotFound { continue }
+        }
+        throw CloudError.fileNotFound
+    }
     func mutate(_ action: String, values: [String:JSONValue]) async throws {
         guard ["mkdir","rename","move","copy","remove"].contains(action) else { throw CloudError.message("不支持的文件操作。") }
         let _: Empty = try await perform("/api/fs/"+action,payload:values)

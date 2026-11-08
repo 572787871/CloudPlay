@@ -118,6 +118,7 @@ struct TaskDetailView: View {
     @State private var selection=Set<String>()
     @State private var loaded=false
     @State private var confirm=false
+    @State private var opening: String?
     @State private var message: String?
     var body: some View {
         List {
@@ -136,20 +137,40 @@ struct TaskDetailView: View {
                     }
                 }
                 if let next=item.followedBy, !next.isEmpty { Section("元数据已获取") { ForEach(next,id:\.self) { nextID in NavigationLink("打开后续文件下载任务") { TaskDetailView(gid:nextID) } } } }
-                Section("文件选择") {
-                    ForEach(item.files ?? []) { file in
-                        Toggle(isOn:Binding(get:{selection.contains(file.index)},set:{if $0 {selection.insert(file.index)} else {selection.remove(file.index)}})) {
-                            VStack(alignment:.leading) { Text((file.path as NSString).lastPathComponent); Text(Format.bytes(Int64(file.length) ?? 0)).font(.caption).foregroundStyle(.secondary) }
-                        }.disabled(item.status=="complete")
-                        if item.status=="complete", CloudFile(name:file.path).isVideo, let path=cloudPath(file.path) {
-                            Button("在云盘中播放") { store.play(path:path,name:(file.path as NSString).lastPathComponent) }
+                if item.isMetadata {
+                    Section { Text("此任务只获取 torrent 元数据，不是视频文件。请打开后续文件下载任务查看视频。").font(.footnote).foregroundStyle(.secondary) }
+                } else {
+                    Section(item.status == "complete" ? "已下载文件" : "文件选择") {
+                        ForEach(item.files ?? []) { file in
+                            if item.status == "complete" {
+                                VStack(alignment:.leading,spacing:8) {
+                                    fileLabel(file)
+                                    if CloudFile(name:file.path).isVideo, file.selected == "true",
+                                       Int64(file.completedLength) == Int64(file.length), (Int64(file.length) ?? 0) > 0 {
+                                        Button { play(file,task:item) } label: {
+                                            HStack { Label("播放视频",systemImage:"play.circle.fill"); if opening == file.index { ProgressView() } }
+                                        }.disabled(opening != nil).buttonStyle(.borderless)
+                                    }
+                                }
+                            } else {
+                                Toggle(isOn:Binding(get:{selection.contains(file.index)},set:{if $0 {selection.insert(file.index)} else {selection.remove(file.index)}})) { fileLabel(file) }
+                            }
+                        }
+                        if (item.files ?? []).isEmpty { Text("等待元数据。没有可用 Peer 时无法获取文件列表。").foregroundStyle(.secondary) }
+                        if item.status != "complete" { Button("暂停并保存文件选择") { Task { do {
+                            if item.status=="active" || item.status=="waiting" { try await store.rpc().action("pause",gid:gid) }
+                            try await store.rpc().selectFiles(selection,gid:gid); await refresh()
+                        } catch { message=CloudError.friendly(error) } } }.disabled(selection.isEmpty) }
+                    }
+                    if let profile=store.selected {
+                        Section("云盘位置") {
+                            NavigationLink("打开下载文件夹") { FilesView(path:profile.downloadMountPath) }
+                            if (item.files ?? []).contains(where:{$0.path.hasPrefix(DownloadFileLocation.webRoot+"/")}) {
+                                NavigationLink("打开网页离线文件夹") { FilesView(path:InputValidation.joined(profile.downloadMountPath,DownloadFileLocation.webFolder)) }
+                                Text("网页任务可能先保存在临时目录。转存失败时可从“网页离线”进入任务目录；请勿移动或删除仍在下载、转存或做种的文件。").font(.footnote).foregroundStyle(.secondary)
+                            }
                         }
                     }
-                    if (item.files ?? []).isEmpty { Text("等待元数据。没有可用 Peer 时无法获取文件列表。").foregroundStyle(.secondary) }
-                    if item.status != "complete" { Button("暂停并保存文件选择") { Task { do {
-                        if item.status=="active" || item.status=="waiting" { try await store.rpc().action("pause",gid:gid) }
-                        try await store.rpc().selectFiles(selection,gid:gid); await refresh()
-                    } catch { message=CloudError.friendly(error) } } }.disabled(selection.isEmpty) }
                 }
             } else { ProgressView("正在读取任务状态…") }
             if let message { Text(message).foregroundStyle(.orange) }
@@ -162,13 +183,28 @@ struct TaskDetailView: View {
             Button("移除任务，保留文件",role:.destructive) { act(["complete","error","removed"].contains(item?.status ?? "") ? "removeDownloadResult" : "forceRemove") }
         }
     }
-    private func cloudPath(_ value: String) -> String? {
-        guard let profile=store.selected, value.hasPrefix(profile.aria2Directory+"/") else {return nil}
-        return profile.downloadMountPath + String(value.dropFirst(profile.aria2Directory.count))
+    private func fileLabel(_ file: TorrentFile) -> some View {
+        VStack(alignment:.leading) {
+            Text((file.path as NSString).lastPathComponent)
+            Text(Format.bytes(Int64(file.length) ?? 0)).font(.caption).foregroundStyle(.secondary)
+            if file.selected != "true" { Text("未选择下载").font(.caption).foregroundStyle(.secondary) }
+        }
+    }
+    private func play(_ file: TorrentFile,task: DownloadTask) {
+        guard let profile=store.selected else {return}
+        opening=file.index; message=nil
+        Task {
+            defer {opening=nil}
+            do {
+                let path=try await store.client(profile).completedFilePath(file,task:task)
+                guard store.selectedID == profile.id else {return}
+                store.play(path:path,name:(file.path as NSString).lastPathComponent,profile:profile)
+            } catch {message=CloudError.friendly(error)}
+        }
     }
     private func act(_ action: String) { Task { do { try await store.rpc().action(action,gid:gid); if ["forceRemove","removeDownloadResult"].contains(action) { dismiss() } else { await refresh() } } catch {message=CloudError.friendly(error)} } }
     private func refresh() async {
-        do { let value=try await store.rpc().status(gid); guard !Task.isCancelled else{return}; item=value; if !loaded && !(value.files ?? []).isEmpty { selection=Set((value.files ?? []).filter {$0.selected=="true"}.map(\.index)); loaded=true }; message=nil }
+        do { let value=try await store.rpc().status(gid); guard !Task.isCancelled else{return}; item=value; if !loaded && !(value.files ?? []).isEmpty { selection=Set((value.files ?? []).filter {$0.selected=="true"}.map(\.index)); loaded=true } }
         catch { if !Task.isCancelled {message=CloudError.friendly(error)} }
     }
 }

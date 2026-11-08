@@ -48,3 +48,15 @@
 - 无第三方网盘凭据，没有宣称真实云盘授权读写已通过。驱动管理使用 OpenList 管理网页，原生浏览与文件操作受具体驱动能力限制。
 - 不实现未完成 BT 文件的验证分片调度，播放应等待下载完成。云盘中仍在写入的视频可能不可播放；不能直接移动/删除仍由 Aria2 写入的文件。
 - 未执行整台 VPS 重启，也未访问 OCI 控制台确认安全列表、免费额度和流量账单。
+
+## 1.0.1 网页离线文件位置修复
+
+2026-11-08：实查 Aria2 已完成任务与 OpenList 转存任务，确认网页任务下载在共享临时目录，转存因 `upload_download_stream` 对 `magnet:` 发起 HTTP 请求而失败。没有重新下载、移动或删除用户原文件，也没有重启下载器。
+
+- VPS 实际执行两次 `download_mounts.py`：成功添加 `/下载/网页离线`，重复执行不改变已有挂载；普通 App 账号可以从 `/下载` 进入该目录。
+- 新挂载下用独立自生成字节文件验证实际 HTTPS 签名 URL、长度、三个 Range 206（含文件尾）、HEAD 和越界 416，通过后删除自有测试目录。
+- 对原已完成视频仅检查文件元数据，OpenList 文件大小与 Aria2 的总长度/已完成长度相符；没有下载或播放用户媒体内容。
+- Linux：11 项 Python 单元测试通过（原 7 项备份安全测试 + 4 项下载挂载防冲突/幂等测试），脚本 compileall 通过。
+- 新增 iOS 回归测试覆盖原生/网页任务路径、Unicode/层级保留、路径前缀边界/穿越拒绝、未完成/未选中/元数据不可播放、缓存解析、转存后回退、权限及长度不符拒绝。此处仅记录已添加；运行结果在 CI 完成后补充。
+
+上游行为核对：[AddURL 策略](https://github.com/OpenListTeam/OpenList/blob/v4.2.9/internal/offline_download/tool/add.go)、[转存实现](https://github.com/OpenListTeam/OpenList/blob/v4.2.9/internal/offline_download/tool/transfer.go)。本次没有修改 OpenList 上游镜像；网页添加磁力时仍须选择普通转存策略，详情见服务器 README。

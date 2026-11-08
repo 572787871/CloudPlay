@@ -10,6 +10,7 @@ import socket
 import subprocess
 import time
 from pathlib import Path
+from download_mounts import ensure_download_mounts
 from common import BASE, MARKER, OpenList, compose, container_ip, run, write_private
 
 IMAGES = {'OPENLIST_IMAGE': 'openlistteam/openlist:v4.2.9',
@@ -205,14 +206,7 @@ def main():
         api.call('/api/admin/user/create', {'username':creds['openlist_username'],
                  'password':creds['openlist_password'],'role':0,'base_path':'/',
                  'permission':0x73FE,'disabled':False})
-    storages = api.call('/api/admin/storage/list?page=1&per_page=100')['content']
-    if not any(s['mount_path']=='/下载' for s in storages):
-        api.call('/api/admin/storage/create', {'mount_path':'/下载','driver':'Local',
-                  'addition':json.dumps({'root_folder_path':'/downloads','thumbnail':False,
-                             'show_hidden':False,'mkdir_perm':'700'}),
-                  'cache_expiration':0,'enable_sign':True,'web_proxy':True,
-                  'webdav_policy':'native_proxy','proxy_range':True,
-                  'order_by':'name','order_direction':'asc','extract_folder':'front'})
+    ensure_download_mounts(api)
     settings = api.call('/api/admin/setting/list')
     updates = {'site_title':'CloudPlay 私人云盘','aria2_uri':'http://aria2:6800/jsonrpc',
                'aria2_secret':creds['aria2_secret'],'search_index':'database','auto_update_index':'true',

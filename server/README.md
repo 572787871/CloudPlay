@@ -143,3 +143,27 @@ sudo python3 scripts/uninstall.py --purge-data --confirm-domain cl.520123.xyz
 `verify.py` 会实际测试：HTTPS 证书、RPC 两层认证、匿名访问拒绝、普通用户权限、目录与共享卷、上传/下载内容、重命名、移动、复制、WebDAV、HTTP Range 206/416 与 HEAD、真实 Aria2 HTTP 下载、下载后云盘可见、暂停、恢复和容器重启后的任务恢复，并只清理自生成的验收目录。
 
 独立单元测试：`python3 -m unittest discover -s tests -v`。CI 提供 ARM64 镜像拉取、Aria2 构建和脚本测试，但 CI 配置文件本身不代表已经执行成功。公网 BT Peer、第三方网盘授权、iPhone 字幕/音轨与后台传输需分别实测，详见根目录测试记录。
+
+## 网页离线任务完成，但下载文件夹为空
+
+OpenList 与 App 直接创建的 Aria2 任务保存位置不同：App 默认写入 `/downloads`，网页离线任务先写入 `/opt/openlist/data/temp/aria2/<任务 UUID>`，随后由 OpenList 转存到目标云盘目录。因此 Aria2 的“已完成”只表示下载完成，不保证网页的转存任务成功。
+
+本版同时挂载：
+
+| OpenList 云盘目录 | 容器内真实目录 |
+| --- | --- |
+| `/下载` | `/downloads` |
+| `/下载/网页离线` | `/opt/openlist/data/temp/aria2` |
+
+已有部署只需更新脚本并执行下列命令，不必重装、重启下载器或重新下载：
+
+```bash
+cd /opt/cloudplay/server
+sudo python3 scripts/download_mounts.py
+```
+
+脚本幂等，只补充缺失挂载，不移动原文件；发现同名挂载指向其他存储时拒绝覆盖。使用现有普通 App 账号验证两个目录，不授予管理员权限。网页临时文件仍由 Aria2/OpenList 管理，**下载、转存、做种期间不要手动删除、移动、改名**。其中未完成的文件不能当作可播放的完整视频。
+
+OpenList 4.2.9 网页若选择 `upload_download_stream`（直接上传下载流）处理磁力，会在转存时尝试 HTTP 读取 `magnet:`，出现 `failed to resolve host`。后续添加磁力请选普通“上传成功后删除临时文件”或“不删除临时文件”，不要选“直接上传下载流”。这属于网页逐任务策略，本项目没有修改上游镜像或擅自修改已运行任务的策略。“不删除”会保留临时副本，占用额外空间；确认转存完成、且下载器不再使用源文件后再清理。失败的旧任务可以先在 `/下载/网页离线/<任务 UUID>/…` 访问已下载内容，无须再次获取磁力。
+
+CloudPlay 1.0.1 在已完成任务的每个视频文件下显示“播放视频”，核对实际文件长度后才打开。网页临时源已删除时，仅尝试默认 `/下载` 目标下保持相同目录结构的文件；如果网页另选了其他云盘或目录，请从云盘页打开实际目标，不猜测任意目录或扫描整台服务器。`[METADATA]` 项只是 torrent 元数据，详情会指向后续文件任务。

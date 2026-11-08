@@ -67,4 +67,49 @@ final class APITests: XCTestCase {
         do {let _=try await api.list("/");XCTFail("权限错误未被处理")}
         catch {XCTAssertEqual(error.localizedDescription,CloudError.permission.localizedDescription)}
     }
+    func webTask() throws -> DownloadTask {
+        let root = DownloadFileLocation.webRoot+"/3bc0c5fa-78ee-4322-ad37-3e5a979984c3"
+        return try JSONDecoder().decode(DownloadTask.self,from:JSONSerialization.data(withJSONObject:[
+            "gid":"test", "status":"complete", "dir":root,
+            "files":[["index":"1", "path":root+"/电影/video.mp4", "length":"100", "completedLength":"100", "selected":"true"]]]))
+    }
+    func testCompletedWebTaskResolvesExistingCacheBeforePlayback() async throws {
+        let task = try webTask()
+        var requests = 0
+        StubProtocol.handler = { request in
+            requests += 1
+            let json = try JSONSerialization.jsonObject(with:self.body(request)) as! [String:Any]
+            XCTAssertEqual(json["path"] as? String,"/下载/网页离线/3bc0c5fa-78ee-4322-ad37-3e5a979984c3/电影/video.mp4")
+            return (200,Data(#"{"code":200,"data":{"raw_url":"https://unit.example/d/video.mp4?sign=unit","size":100,"is_dir":false}}"#.utf8))
+        }
+        let api = OpenListClient(profile:profile,credentials:ServerCredentials(token:"token"),session:session(),persistCredentials:false)
+        let path = try await api.completedFilePath(task.files![0],task:task)
+        XCTAssertTrue(path.hasPrefix("/下载/网页离线/")); XCTAssertEqual(requests,1)
+    }
+    func testTransferredWebTaskFallsBackOnlyAfterNotFound() async throws {
+        let task = try webTask()
+        var requests = 0
+        StubProtocol.handler = { request in
+            requests += 1
+            if requests == 1 {return (200,Data(#"{"code":500,"message":"failed get object: object not found"}"#.utf8))}
+            let json = try JSONSerialization.jsonObject(with:self.body(request)) as! [String:Any]
+            XCTAssertEqual(json["path"] as? String,"/下载/电影/video.mp4")
+            return (200,Data(#"{"code":200,"data":{"raw_url":"https://unit.example/d/video.mp4","size":100}}"#.utf8))
+        }
+        let api = OpenListClient(profile:profile,credentials:ServerCredentials(token:"token"),session:session(),persistCredentials:false)
+        let path = try await api.completedFilePath(task.files![0],task:task)
+        XCTAssertEqual(path,"/下载/电影/video.mp4"); XCTAssertEqual(requests,2)
+    }
+    func testCompletedPlaybackDoesNotMaskPermissionOrPartialTransfer() async throws {
+        let task = try webTask()
+        for response in [#"{"code":403,"message":"denied"}"#, #"{"code":200,"data":{"raw_url":"https://unit.example/d/video.mp4","size":99}}"#] {
+            var requests = 0
+            StubProtocol.handler = { _ in requests += 1; return (200,Data(response.utf8)) }
+            let api = OpenListClient(profile:profile,credentials:ServerCredentials(token:"token"),session:session(),persistCredentials:false)
+            do {let _ = try await api.completedFilePath(task.files![0],task:task); XCTFail("不得播放无权限或仍在转存的文件")}
+            catch {XCTAssertTrue(error is CloudError)}
+            XCTAssertEqual(requests,1)
+        }
+    }
+
 }
