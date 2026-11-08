@@ -1,0 +1,15 @@
+{
+  "architecture": "arm64",
+  "platform": "iPhoneOS",
+  "min_iOS": "17.0",
+  "SDK": "iphoneos26.5",
+  "version": "1.0.0",
+  "bundle_id": "xyz.cloudplay.personal",
+  "share_extension": true,
+  "VLC_linked": true,
+  "upstream_acknowledgements_parsed": true,
+  "provisioning_profile": false,
+  "ipa_bytes": 17441602,
+  "sha256": "0e55a9787003b7bc816d9c63cc24e70984e4e538c858e390724ff3621663c3e6",
+  "source_commit": "0d62038"
+}

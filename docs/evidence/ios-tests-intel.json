@@ -1,0 +1,46 @@
+{
+  "devicesAndConfigurations" : [
+    {
+      "device" : {
+        "architecture" : "x86_64",
+        "deviceId" : "12FCFD0F-7FCF-463F-A605-132A7E18B5D5",
+        "deviceName" : "iPhone 17 Pro",
+        "modelName" : "iPhone 17 Pro",
+        "osBuildNumber" : "23F77",
+        "osVersion" : "26.5",
+        "platform" : "iOS Simulator"
+      },
+      "expectedFailures" : 0,
+      "failedTests" : 0,
+      "passedTests" : 16,
+      "skippedTests" : 0,
+      "testPlanConfiguration" : {
+        "configurationId" : "1",
+        "configurationName" : "Test Scheme Action"
+      }
+    }
+  ],
+  "environmentDescription" : "CloudPlay · Built with macOS 26.6.1",
+  "expectedFailures" : 0,
+  "failedTests" : 0,
+  "finishTime" : 1794144368.222,
+  "passedTests" : 16,
+  "result" : "Passed",
+  "skippedTests" : 0,
+  "startTime" : 1794144029.054,
+  "statistics" : [
+
+  ],
+  "testFailures" : [
+
+  ],
+  "title" : "Test - CloudPlay",
+  "topInsights" : [
+    {
+      "category" : "Longest Test Runs",
+      "impact" : "52% of duration",
+      "text" : "1 longest test run with outlier durations exceeding 2.25s (three standard deviations)"
+    }
+  ],
+  "totalTestCount" : 16
+}
