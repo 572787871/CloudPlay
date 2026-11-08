@@ -1,0 +1,18 @@
+CloudPlay 第三方组件说明
+
+MobileVLCKit 3.7.5 — VideoLAN 及其贡献者
+许可证：GNU Lesser General Public License v2.1，全文见 LGPL-2.1.txt。
+未修改的官方 CocoaPods 制品：
+https://download.videolan.org/pub/cocoapods/prod/MobileVLCKit-3.7.5-a213fd11-6de05adc.tar.xz
+SHA256: a76f7a6cfcde4209b56f943e6e18400659d8a7a93ff482f8b1d059468d11e6be
+对应源代码及构建工具：
+https://code.videolan.org/videolan/VLCKit
+https://code.videolan.org/videolan/vlc
+源码标识由官方制品名提供：VLCKit a213fd11 / VLC 6de05adc。
+本项目公开提供完整 App 源码、Xcode 工程及构建脚本，可在 Podfile 中换用自行从源码构建的兼容 VLCKit 并重新链接、个人签名安装。允许为调试对这些 LGPL 组件的修改而进行逆向工程；本项目不施加禁止此行为的条款。不要删除 SDK 随附的版权、许可证及各编解码组件声明。
+
+OpenList、Aria2、Caddy 是独立运行于服务器的上游程序，未链接进入 App。
+OpenList: https://github.com/OpenListTeam/OpenList — AGPL-3.0
+Aria2: https://github.com/aria2/aria2 — GPL-2.0-or-later
+Caddy: https://github.com/caddyserver/caddy — Apache-2.0
+具体条款及各依赖声明以上游仓库和所分发版本的 COPYING / LICENSE 为准。

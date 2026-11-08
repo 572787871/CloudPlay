@@ -1,0 +1,668 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		07B1EC6A0238D3E4C7844419 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C1ED2AC9C01B4B34EB14C6 /* HistoryView.swift */; };
+		0E2F3EB072699DD7639717CE /* TransferManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E718650BC1C198AB93336296 /* TransferManager.swift */; };
+		207066DBBB986DAD444EAFB2 /* DownloadsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61410880A41D4E7FA7DF96E3 /* DownloadsView.swift */; };
+		27B5A225642B5B0994EBD3D7 /* CloudPlayShare.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = CC0C385DAFF2605FEB0EEFDA /* CloudPlayShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		2D4F3EEF4DEB143FE0CDC088 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFB063D1DFDB292BE7AFE06B /* Foundation.framework */; };
+		32E3DEEE7BA3DC8769B5F62D /* LGPL-2.1.txt in Resources */ = {isa = PBXBuildFile; fileRef = 76E2EC5F60309EB7205EE6A3 /* LGPL-2.1.txt */; };
+		4A4E2CBC605D344D5CA41FE1 /* AppStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E659301A1A7EAAAB90F470D9 /* AppStore.swift */; };
+		5D09579ECD0C6D45ADFC3000 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D62B6DBAC5F429D26EBA06B0 /* SettingsView.swift */; };
+		5E615A60DCC09DB3D16B871E /* PlayerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D3A32D0CEF150DA0DC0465 /* PlayerModel.swift */; };
+		7278E1EC27A5248FDC0ACE2B /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E058D49520A5A6CD169C09AF /* ShareViewController.swift */; };
+		7F919A8CCCDFA9BE22FA5897 /* APITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9FC0D7BE7C8BA266B65C724 /* APITests.swift */; };
+		858F671566795A4F34325841 /* FilesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DBF8E02758F4BDBAFE064BD /* FilesView.swift */; };
+		8A2746C13587E56203B3C7A4 /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C71F8E5288EE379F6026D3B /* PlayerView.swift */; };
+		A48C3CBEA215C85DC45E669B /* ThirdPartyNotices.txt in Resources */ = {isa = PBXBuildFile; fileRef = C2BF2E15B87F5AADF5C21978 /* ThirdPartyNotices.txt */; };
+		AC579E12542758FEC32ED78D /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62ED004D6F4BFA7E6E799BEE /* RootView.swift */; };
+		B5EEB1E53551ED31661CD883 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C14972764C297E9C1FD1473 /* Models.swift */; };
+		C06A1BB7755C0E81D42B1F5C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C38F9C19633841B703A7ADC5 /* Assets.xcassets */; };
+		C1B989DBA00521986FF16B95 /* ValidationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E2E04A4F19F2913193A433 /* ValidationTests.swift */; };
+		C208ABC5E378809B9C1DF3D8 /* CloudPlayApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E054D08D1DAAB8655671A1 /* CloudPlayApp.swift */; };
+		C99A5BD7E1B1AE2B8FC15691 /* SecureStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7765BF381E25FE6C3D7A47C /* SecureStore.swift */; };
+		D2BF9962B68CD8CD1A413A37 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = A553D3EAA2DA75E4C67AD5DD /* API.swift */; };
+		D4963EB85CF31DF004985B85 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFB063D1DFDB292BE7AFE06B /* Foundation.framework */; };
+		E4D74FD2479CD6243C42BA32 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFB063D1DFDB292BE7AFE06B /* Foundation.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		1A86B6D2B4844C99A0230C89 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A74E8EF24F72C86B1F02C2F0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9EB4DF77E6D45C1B6DC3E046;
+			remoteInfo = CloudPlay;
+		};
+		6AB74CF39CD3C940B0C3DA68 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A74E8EF24F72C86B1F02C2F0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 777DE38BA0803FB2F252DF94;
+			remoteInfo = CloudPlayShare;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		C4CBB5253900E6D193351E1B /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				27B5A225642B5B0994EBD3D7 /* CloudPlayShare.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		26D3A32D0CEF150DA0DC0465 /* PlayerModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PlayerModel.swift; path = Playback/PlayerModel.swift; sourceTree = "<group>"; };
+		31C120CD962B3EB83CB75CA3 /* CloudPlay.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CloudPlay.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3FF46A1E9559303A8F5A3FEF /* CloudPlayTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CloudPlayTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		41C1ED2AC9C01B4B34EB14C6 /* HistoryView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HistoryView.swift; path = Features/HistoryView.swift; sourceTree = "<group>"; };
+		61410880A41D4E7FA7DF96E3 /* DownloadsView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DownloadsView.swift; path = Features/DownloadsView.swift; sourceTree = "<group>"; };
+		62ED004D6F4BFA7E6E799BEE /* RootView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RootView.swift; path = Features/RootView.swift; sourceTree = "<group>"; };
+		65E054D08D1DAAB8655671A1 /* CloudPlayApp.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CloudPlayApp.swift; sourceTree = "<group>"; };
+		6C71F8E5288EE379F6026D3B /* PlayerView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PlayerView.swift; path = Playback/PlayerView.swift; sourceTree = "<group>"; };
+		76E2EC5F60309EB7205EE6A3 /* LGPL-2.1.txt */ = {isa = PBXFileReference; includeInIndex = 1; path = "LGPL-2.1.txt"; sourceTree = "<group>"; };
+		8C14972764C297E9C1FD1473 /* Models.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Models.swift; path = Core/Models.swift; sourceTree = "<group>"; };
+		8DBF8E02758F4BDBAFE064BD /* FilesView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FilesView.swift; path = Features/FilesView.swift; sourceTree = "<group>"; };
+		A553D3EAA2DA75E4C67AD5DD /* API.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = API.swift; path = Core/API.swift; sourceTree = "<group>"; };
+		C2BF2E15B87F5AADF5C21978 /* ThirdPartyNotices.txt */ = {isa = PBXFileReference; includeInIndex = 1; path = ThirdPartyNotices.txt; sourceTree = "<group>"; };
+		C38F9C19633841B703A7ADC5 /* Assets.xcassets */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C7765BF381E25FE6C3D7A47C /* SecureStore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SecureStore.swift; path = Core/SecureStore.swift; sourceTree = "<group>"; };
+		C9FC0D7BE7C8BA266B65C724 /* APITests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = APITests.swift; sourceTree = "<group>"; };
+		CC0C385DAFF2605FEB0EEFDA /* CloudPlayShare.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = CloudPlayShare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		D62B6DBAC5F429D26EBA06B0 /* SettingsView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SettingsView.swift; path = Features/SettingsView.swift; sourceTree = "<group>"; };
+		DFB063D1DFDB292BE7AFE06B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		E058D49520A5A6CD169C09AF /* ShareViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
+		E1E2E04A4F19F2913193A433 /* ValidationTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ValidationTests.swift; sourceTree = "<group>"; };
+		E659301A1A7EAAAB90F470D9 /* AppStore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AppStore.swift; path = Core/AppStore.swift; sourceTree = "<group>"; };
+		E718650BC1C198AB93336296 /* TransferManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TransferManager.swift; path = Core/TransferManager.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		27906B6A349A8F56F70AC933 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2D4F3EEF4DEB143FE0CDC088 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		54B3F968C9546914495BBA85 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E4D74FD2479CD6243C42BA32 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D117DB543B27FE15DF9928EC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D4963EB85CF31DF004985B85 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1E13462BB8083A37AF121C72 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				65E054D08D1DAAB8655671A1 /* CloudPlayApp.swift */,
+				A553D3EAA2DA75E4C67AD5DD /* API.swift */,
+				E659301A1A7EAAAB90F470D9 /* AppStore.swift */,
+				8C14972764C297E9C1FD1473 /* Models.swift */,
+				C7765BF381E25FE6C3D7A47C /* SecureStore.swift */,
+				E718650BC1C198AB93336296 /* TransferManager.swift */,
+				61410880A41D4E7FA7DF96E3 /* DownloadsView.swift */,
+				8DBF8E02758F4BDBAFE064BD /* FilesView.swift */,
+				41C1ED2AC9C01B4B34EB14C6 /* HistoryView.swift */,
+				62ED004D6F4BFA7E6E799BEE /* RootView.swift */,
+				D62B6DBAC5F429D26EBA06B0 /* SettingsView.swift */,
+				26D3A32D0CEF150DA0DC0465 /* PlayerModel.swift */,
+				6C71F8E5288EE379F6026D3B /* PlayerView.swift */,
+			);
+			name = App;
+			path = App;
+			sourceTree = "<group>";
+		};
+		2323B4FA26AB32B40B3D3C42 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8FCF2EE281170628B90A6326 /* iOS */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		463A6B8CCEB6EF6B68A4002E /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C38F9C19633841B703A7ADC5 /* Assets.xcassets */,
+				C2BF2E15B87F5AADF5C21978 /* ThirdPartyNotices.txt */,
+				76E2EC5F60309EB7205EE6A3 /* LGPL-2.1.txt */,
+			);
+			name = Resources;
+			path = App/Resources;
+			sourceTree = "<group>";
+		};
+		625E8CF4C880378B99AD539F /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				C9FC0D7BE7C8BA266B65C724 /* APITests.swift */,
+				E1E2E04A4F19F2913193A433 /* ValidationTests.swift */,
+			);
+			name = Tests;
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		8FCF2EE281170628B90A6326 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				DFB063D1DFDB292BE7AFE06B /* Foundation.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		CA55F6EFDD5F99720057888A = {
+			isa = PBXGroup;
+			children = (
+				D01633806EC7A4855C724536 /* Products */,
+				2323B4FA26AB32B40B3D3C42 /* Frameworks */,
+				1E13462BB8083A37AF121C72 /* App */,
+				D6B6E901456D5E50254B854A /* ShareExtension */,
+				625E8CF4C880378B99AD539F /* Tests */,
+				463A6B8CCEB6EF6B68A4002E /* Resources */,
+			);
+			sourceTree = "<group>";
+		};
+		D01633806EC7A4855C724536 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				31C120CD962B3EB83CB75CA3 /* CloudPlay.app */,
+				CC0C385DAFF2605FEB0EEFDA /* CloudPlayShare.appex */,
+				3FF46A1E9559303A8F5A3FEF /* CloudPlayTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D6B6E901456D5E50254B854A /* ShareExtension */ = {
+			isa = PBXGroup;
+			children = (
+				E058D49520A5A6CD169C09AF /* ShareViewController.swift */,
+			);
+			name = ShareExtension;
+			path = ShareExtension;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		777DE38BA0803FB2F252DF94 /* CloudPlayShare */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B743F289EF6FF9E195F8434C /* Build configuration list for PBXNativeTarget "CloudPlayShare" */;
+			buildPhases = (
+				F0E9475759B5BB97858AC577 /* Sources */,
+				D117DB543B27FE15DF9928EC /* Frameworks */,
+				5A6FD67370E9F14AB88B6FB0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CloudPlayShare;
+			productName = CloudPlayShare;
+			productReference = CC0C385DAFF2605FEB0EEFDA /* CloudPlayShare.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		9EB4DF77E6D45C1B6DC3E046 /* CloudPlay */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FC1B5F47A003E3A787A8CD3F /* Build configuration list for PBXNativeTarget "CloudPlay" */;
+			buildPhases = (
+				1014F6ABBBD6E1E92913156B /* Sources */,
+				54B3F968C9546914495BBA85 /* Frameworks */,
+				F804F60B87628C458BCFE8C2 /* Resources */,
+				C4CBB5253900E6D193351E1B /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				26D1344D0D02B2E88B4AFD5B /* PBXTargetDependency */,
+			);
+			name = CloudPlay;
+			productName = CloudPlay;
+			productReference = 31C120CD962B3EB83CB75CA3 /* CloudPlay.app */;
+			productType = "com.apple.product-type.application";
+		};
+		FA8F7ED66C4947440FBE8D17 /* CloudPlayTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EE025B710C2726DC71343F85 /* Build configuration list for PBXNativeTarget "CloudPlayTests" */;
+			buildPhases = (
+				76320A602F4385B33E97011B /* Sources */,
+				27906B6A349A8F56F70AC933 /* Frameworks */,
+				186CD17F6B0037EB020AD32B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BFE872F3B4B1B23DCCEFA6CE /* PBXTargetDependency */,
+			);
+			name = CloudPlayTests;
+			productName = CloudPlayTests;
+			productReference = 3FF46A1E9559303A8F5A3FEF /* CloudPlayTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A74E8EF24F72C86B1F02C2F0 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 1600;
+			};
+			buildConfigurationList = ED31F54BC9F57163CC15E445 /* Build configuration list for PBXProject "CloudPlay" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = CA55F6EFDD5F99720057888A;
+			minimizedProjectReferenceProxies = 0;
+			preferredProjectObjectVersion = 100;
+			productRefGroup = D01633806EC7A4855C724536 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				9EB4DF77E6D45C1B6DC3E046 /* CloudPlay */,
+				777DE38BA0803FB2F252DF94 /* CloudPlayShare */,
+				FA8F7ED66C4947440FBE8D17 /* CloudPlayTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		186CD17F6B0037EB020AD32B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5A6FD67370E9F14AB88B6FB0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F804F60B87628C458BCFE8C2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C06A1BB7755C0E81D42B1F5C /* Assets.xcassets in Resources */,
+				A48C3CBEA215C85DC45E669B /* ThirdPartyNotices.txt in Resources */,
+				32E3DEEE7BA3DC8769B5F62D /* LGPL-2.1.txt in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1014F6ABBBD6E1E92913156B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C208ABC5E378809B9C1DF3D8 /* CloudPlayApp.swift in Sources */,
+				D2BF9962B68CD8CD1A413A37 /* API.swift in Sources */,
+				4A4E2CBC605D344D5CA41FE1 /* AppStore.swift in Sources */,
+				B5EEB1E53551ED31661CD883 /* Models.swift in Sources */,
+				C99A5BD7E1B1AE2B8FC15691 /* SecureStore.swift in Sources */,
+				0E2F3EB072699DD7639717CE /* TransferManager.swift in Sources */,
+				207066DBBB986DAD444EAFB2 /* DownloadsView.swift in Sources */,
+				858F671566795A4F34325841 /* FilesView.swift in Sources */,
+				07B1EC6A0238D3E4C7844419 /* HistoryView.swift in Sources */,
+				AC579E12542758FEC32ED78D /* RootView.swift in Sources */,
+				5D09579ECD0C6D45ADFC3000 /* SettingsView.swift in Sources */,
+				5E615A60DCC09DB3D16B871E /* PlayerModel.swift in Sources */,
+				8A2746C13587E56203B3C7A4 /* PlayerView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		76320A602F4385B33E97011B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7F919A8CCCDFA9BE22FA5897 /* APITests.swift in Sources */,
+				C1B989DBA00521986FF16B95 /* ValidationTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F0E9475759B5BB97858AC577 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7278E1EC27A5248FDC0ACE2B /* ShareViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		26D1344D0D02B2E88B4AFD5B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CloudPlayShare;
+			target = 777DE38BA0803FB2F252DF94 /* CloudPlayShare */;
+			targetProxy = 6AB74CF39CD3C940B0C3DA68 /* PBXContainerItemProxy */;
+		};
+		BFE872F3B4B1B23DCCEFA6CE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CloudPlay;
+			target = 9EB4DF77E6D45C1B6DC3E046 /* CloudPlay */;
+			targetProxy = 1A86B6D2B4844C99A0230C89 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		0A4B89127CD5CC5C8A2CA112 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_STRICT_CONCURRENCY = targeted;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		2BF24A9561B6421D98435954 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_STYLE = Automatic;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = xyz.cloudplay.personal.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CloudPlay.app/CloudPlay";
+			};
+			name = Debug;
+		};
+		3E59817863D0CFB43FB727CA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_STYLE = Automatic;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = ShareExtension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = xyz.cloudplay.personal.share;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		5AB0767BB5C32CD1A4EB9658 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STRICT_CONCURRENCY = targeted;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		B148EFBBB96482E6964A37A0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = App/Resources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = xyz.cloudplay.personal;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C6A9546437736C26B456499C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_STYLE = Automatic;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = ShareExtension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = xyz.cloudplay.personal.share;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D44D66C5DFBECABA63D30C0A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = App/Resources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = xyz.cloudplay.personal;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F670E56800D8019DF66C89A0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_STYLE = Automatic;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = xyz.cloudplay.personal.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CloudPlay.app/CloudPlay";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		B743F289EF6FF9E195F8434C /* Build configuration list for PBXNativeTarget "CloudPlayShare" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C6A9546437736C26B456499C /* Release */,
+				3E59817863D0CFB43FB727CA /* Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		ED31F54BC9F57163CC15E445 /* Build configuration list for PBXProject "CloudPlay" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5AB0767BB5C32CD1A4EB9658 /* Debug */,
+				0A4B89127CD5CC5C8A2CA112 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EE025B710C2726DC71343F85 /* Build configuration list for PBXNativeTarget "CloudPlayTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F670E56800D8019DF66C89A0 /* Release */,
+				2BF24A9561B6421D98435954 /* Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FC1B5F47A003E3A787A8CD3F /* Build configuration list for PBXNativeTarget "CloudPlay" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D44D66C5DFBECABA63D30C0A /* Release */,
+				B148EFBBB96482E6964A37A0 /* Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A74E8EF24F72C86B1F02C2F0 /* Project object */;
+}

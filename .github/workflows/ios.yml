@@ -1,0 +1,46 @@
+name: CloudPlay iOS 未签名 IPA
+on:
+  workflow_dispatch:
+  push:
+    paths: ["App/**", "ShareExtension/**", "Tests/**", "Scripts/**", "CloudPlay.xcodeproj/**", "Podfile", "Podfile.lock", ".github/workflows/ios.yml"]
+permissions:
+  contents: read
+concurrency:
+  group: cloudplay-ios-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: macos-26
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+      - name: 环境和真实依赖
+        run: |
+          set -o pipefail
+          mkdir -p build/logs
+          xcodebuild -version | tee build/logs/xcode-version.log
+          pod install --repo-update 2>&1 | tee build/logs/pod-install.log
+      - name: 运行 iOS 单元测试
+        run: |
+          set -o pipefail
+          SIM_ID=$(xcrun simctl list devices available -j | python3 -c 'import json,sys; d=json.load(sys.stdin); print(next(x["udid"] for a in d["devices"].values() for x in a if x["name"].startswith("iPhone")))')
+          xcodebuild test -workspace CloudPlay.xcworkspace -scheme CloudPlay -configuration Debug -destination "platform=iOS Simulator,id=$SIM_ID" -derivedDataPath build/Simulator -resultBundlePath build/CloudPlayTests.xcresult CODE_SIGNING_ALLOWED=NO 2>&1 | tee build/logs/ios-tests.log
+      - name: 编译 iOS arm64 真机产物
+        run: |
+          set -o pipefail
+          xcodebuild build -workspace CloudPlay.xcworkspace -scheme CloudPlay -configuration Release -destination 'generic/platform=iOS' -derivedDataPath build/Device CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO 2>&1 | tee build/logs/ios-device.log
+          python3 Scripts/package_ipa.py build/Device/Build/Products/Release-iphoneos/CloudPlay.app build/CloudPlay-unsigned.ipa
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: CloudPlay-build-logs
+          path: |
+            build/logs/
+            build/CloudPlayTests.xcresult
+          if-no-files-found: warn
+      - uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: CloudPlay-unsigned-IPA
+          path: build/CloudPlay-unsigned.ipa
+          if-no-files-found: error
