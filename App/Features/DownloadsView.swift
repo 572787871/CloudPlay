@@ -151,7 +151,7 @@ struct TaskDetailView: View {
                         try await store.rpc().selectFiles(selection,gid:gid); await refresh()
                     } catch { message=CloudError.friendly(error) } } }.disabled(selection.isEmpty) }
                 }
-            } else { ProgressView("读取真实任务状态…") }
+            } else { ProgressView("正在读取任务状态…") }
             if let message { Text(message).foregroundStyle(.orange) }
         }.navigationTitle("任务详情")
         .task(id:phase) {

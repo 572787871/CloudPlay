@@ -1,15 +1,25 @@
 name: CloudPlay iOS 未签名 IPA
 on:
   workflow_dispatch:
+    inputs:
+      run_device:
+        description: 编译真机 IPA
+        type: boolean
+        default: true
+      run_tests:
+        description: 运行单元、联调与界面测试
+        type: boolean
+        default: true
   push:
     paths: ["App/**", "ShareExtension/**", "Tests/**", "UITests/**", "Scripts/**", "CloudPlay.xcodeproj/**", "Podfile", "Podfile.lock", ".github/workflows/ios.yml"]
 permissions:
   contents: read
 concurrency:
-  group: cloudplay-ios-intel-${{ github.ref }}
+  group: cloudplay-ios-${{ github.ref }}-${{ github.event_name == 'workflow_dispatch' && inputs.run_tests == false && 'device' || 'full' }}
   cancel-in-progress: true
 jobs:
   device:
+    if: github.event_name != 'workflow_dispatch' || inputs.run_device
     runs-on: macos-26-intel
     timeout-minutes: 25
     steps:
@@ -40,6 +50,7 @@ jobs:
           path: build/CloudPlay-unsigned.ipa
           if-no-files-found: error
   tests:
+    if: github.event_name != 'workflow_dispatch' || inputs.run_tests
     runs-on: macos-26
     timeout-minutes: 25
     steps:
@@ -66,12 +77,17 @@ jobs:
             xcrun xcresulttool get test-results summary --path build/CloudPlayTests.xcresult > build/logs/test-summary.json
             xcrun xcresulttool export attachments --path build/CloudPlayTests.xcresult --output-path build/screenshots
           fi
+      - name: 清理测试产物中的临时凭据
+        if: always()
+        env:
+          CLOUDPLAY_REDACT_USER: ${{ secrets.CLOUDPLAY_TEST_USER }}
+          CLOUDPLAY_REDACT_PASSWORD: ${{ secrets.CLOUDPLAY_TEST_PASSWORD }}
+        run: python3 Scripts/redact_test_artifacts.py
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: CloudPlay-test-logs
           path: |
             build/logs/
-            build/CloudPlayTests.xcresult
             build/screenshots/
           if-no-files-found: warn

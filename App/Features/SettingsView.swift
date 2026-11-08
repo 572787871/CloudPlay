@@ -21,7 +21,7 @@ struct SettingsView: View {
     var body: some View {
         Form {
             if store.profiles.isEmpty {
-                Section { Label("欢迎使用 CloudPlay",systemImage:"cloud.fill").font(.title2.bold()); Text("先添加服务器或导入第一阶段生成的手机连接信息 JSON。账号、Token 和 Secret 仅保存在本机 Keychain。").foregroundStyle(.secondary) }
+                Section { Label("欢迎使用 CloudPlay",systemImage:"cloud.fill").font(.title2.bold()); Text("添加服务器，或导入私人的连接信息文件。账号与访问凭据会安全保存在此设备。").foregroundStyle(.secondary) }
             }
             Section("服务器") {
                 ForEach(store.profiles) { profile in
@@ -91,7 +91,7 @@ struct ProfileEditor: View {
                     SecureField("额外认证密码",text:$rpcPassword)
                     Button("独立测试下载器连接") { test(rpc:true) }
                 }
-                Section("共享目录映射") { TextField("OpenList 下载目录",text:$mount).textInputAutocapitalization(.never); TextField("Aria2 服务器目录",text:$directory).textInputAutocapitalization(.never); Text("此映射用于从已完成下载任务定位云盘文件。第一阶段默认 /下载 ↔ /downloads。").font(.footnote).foregroundStyle(.secondary) }
+                Section("共享目录映射") { TextField("OpenList 下载目录",text:$mount).textInputAutocapitalization(.never); TextField("Aria2 服务器目录",text:$directory).textInputAutocapitalization(.never); Text("此映射用于从已完成下载任务定位云盘文件。默认 /下载 ↔ /downloads。").font(.footnote).foregroundStyle(.secondary) }
                 if busy { ProgressView("正在连接真实服务器…") }
                 if let result { Text(result).font(.footnote).textSelection(.enabled) }
             }.navigationTitle(profile==nil ? "添加服务器" : "编辑服务器")

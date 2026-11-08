@@ -55,7 +55,7 @@ struct UploadPrompt: View {
     var body: some View {
         NavigationStack {
             Form {
-                Section("上传到服务器") { Text(url.lastPathComponent); TextField("目标目录",text:$folder).textInputAutocapitalization(.never); Text("文件会先暂存到手机，再由系统安排后台上传；系统强制终止 App 后需重新打开。这个操作不会添加 BT 下载任务。").font(.footnote).foregroundStyle(.secondary) }
+                Section("上传到服务器") { Text(url.lastPathComponent); TextField("目标目录",text:$folder).textInputAutocapitalization(.never); Text("文件会先暂存到手机，再由系统安排后台上传；主动关闭 App 可能中断传输，需要重新打开继续。这个操作不会添加 BT 下载任务。").font(.footnote).foregroundStyle(.secondary) }
                 Button("开始上传") { Task { await store.upload(url,destination:folder); dismiss() } }.disabled(store.selected==nil)
             }.navigationTitle("导入文件").toolbar { ToolbarItem(placement:.cancellationAction) { Button("取消") { dismiss() } } }
                 .onAppear { folder=store.selected?.downloadMountPath ?? "/下载" }
