@@ -2,7 +2,7 @@ name: CloudPlay iOS 未签名 IPA
 on:
   workflow_dispatch:
   push:
-    paths: ["App/**", "ShareExtension/**", "Tests/**", "Scripts/**", "CloudPlay.xcodeproj/**", "Podfile", "Podfile.lock", ".github/workflows/ios.yml"]
+    paths: ["App/**", "ShareExtension/**", "Tests/**", "UITests/**", "Scripts/**", "CloudPlay.xcodeproj/**", "Podfile", "Podfile.lock", ".github/workflows/ios.yml"]
 permissions:
   contents: read
 concurrency:

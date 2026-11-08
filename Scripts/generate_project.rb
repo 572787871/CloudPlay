@@ -8,6 +8,8 @@ project = Xcodeproj::Project.new(project_path)
 app = project.new_target(:application, 'CloudPlay', :ios, '17.0')
 share = project.new_target(:app_extension, 'CloudPlayShare', :ios, '17.0')
 tests = project.new_target(:unit_test_bundle, 'CloudPlayTests', :ios, '17.0')
+ui_tests = project.new_target(:ui_test_bundle, 'CloudPlayUITests', :ios, '17.0')
+ui_tests.add_dependency(app)
 tests.add_dependency(app)
 app.add_dependency(share)
 project.build_configurations.each do |c|
@@ -17,7 +19,7 @@ project.build_configurations.each do |c|
  c.build_settings['SWIFT_STRICT_CONCURRENCY'] = 'targeted'
  c.build_settings['ENABLE_USER_SCRIPT_SANDBOXING'] = 'NO'
 end
-[[app,'App'],[share,'ShareExtension'],[tests,'Tests']].each do |target,directory|
+[[app,'App'],[share,'ShareExtension'],[tests,'Tests'],[ui_tests,'UITests']].each do |target,directory|
  group = project.main_group.new_group(directory, directory)
  Dir.glob(File.join(root, directory, '**', '*.swift')).sort.each do |path|
    relative=Pathname.new(path).relative_path_from(Pathname.new(File.join(root,directory))).to_s
@@ -60,6 +62,11 @@ tests.build_configurations.each do |c|
  c.build_settings['BUNDLE_LOADER'] = '$(TEST_HOST)'
  c.build_settings['LD_RUNPATH_SEARCH_PATHS'] = ['$(inherited)','@executable_path/Frameworks','@loader_path/Frameworks']
 end
+ui_tests.build_configurations.each do |c|
+ c.build_settings['PRODUCT_BUNDLE_IDENTIFIER'] = 'xyz.cloudplay.personal.uitests'
+ c.build_settings['GENERATE_INFOPLIST_FILE'] = 'YES'
+ c.build_settings['TEST_TARGET_NAME'] = 'CloudPlay'
+end
 embed=app.new_copy_files_build_phase('Embed App Extensions')
 embed.dst_subfolder_spec='13'
 ref=embed.add_file_reference(share.product_reference)
@@ -69,5 +76,6 @@ scheme=Xcodeproj::XCScheme.new
 scheme.add_build_target(app)
 scheme.set_launch_target(app)
 scheme.add_test_target(tests)
+scheme.add_test_target(ui_tests)
 scheme.save_as(project_path,'CloudPlay',true)
 puts 'Generated CloudPlay.xcodeproj with app, share extension and executable tests.'

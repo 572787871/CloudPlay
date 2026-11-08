@@ -26,7 +26,7 @@ def bencode(value):
     raise TypeError('不支持的 Bencode 值')
 
 
-def main():
+def main(files_only=False):
     creds = credentials()
     public = creds['server_url']
     # TLS validation is enabled in urllib; no custom unverified context is used.
@@ -115,6 +115,9 @@ def main():
         with opener.open(Request(public+'/dav/'+quote('下载/'+name+'/',safe='/'),
                                  headers=dav_headers,method='PROPFIND'),timeout=20) as response:
             check(response.status==207,'WebDAV 认证与目录浏览')
+        if files_only:
+            print('文件与 Range 复测完成；保留现有下载任务，不执行下载器重启测试。',flush=True)
+            return
         gid = rpc('addUri',[[url],{'dir':'/downloads/'+name,'out':'离线下载.bin','pause':'true'}])
         gids.append(gid)
         check(rpc('tellStatus',[gid])['status']=='paused','真实离线任务添加与暂停')
@@ -177,4 +180,8 @@ def main():
     print('验收完成。未执行 iPhone 真机、外部网盘凭据和公网磁力 Peer 实测。',flush=True)
 
 
-if __name__ == '__main__': main()
+if __name__ == '__main__':
+    import argparse
+    parser=argparse.ArgumentParser(description='使用自生成数据验收 CloudPlay')
+    parser.add_argument('--files-only',action='store_true',help='服务器有用户任务时，仅验证认证、文件管理及 Range，不重启下载器')
+    main(files_only=parser.parse_args().files_only)
