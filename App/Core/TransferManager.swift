@@ -38,11 +38,12 @@ final class TransferManager: NSObject, ObservableObject, URLSessionTaskDelegate,
         super.init()
         records = LocalFiles.read("transfers.json",fallback:[])
         items = records
+        let startupIDs=Set(records.filter { $0.taskID != nil || $0.state == "正在连接" }.map(\.id))
         session.getAllTasks { [weak self] tasks in
             guard let self else { return }
             let identifiers = Set(tasks.compactMap(\.taskDescription))
             self.lock.lock()
-            for i in self.records.indices where (self.records[i].taskID != nil || self.records[i].state == "正在连接") && !identifiers.contains(self.records[i].id.uuidString) {
+            for i in self.records.indices where startupIDs.contains(self.records[i].id) && !identifiers.contains(self.records[i].id.uuidString) {
                 self.records[i].taskID = nil
                 self.records[i].state = "等待重试"
                 self.records[i].nextRetry = Date()
@@ -101,9 +102,16 @@ final class TransferManager: NSObject, ObservableObject, URLSessionTaskDelegate,
                 task = session.downloadTask(with:request)
             }
             task.taskDescription = record.id.uuidString
-            update(record.id) { $0.taskID = task.taskIdentifier; $0.state = record.upload ? "正在上传" : "下载到手机"; $0.failure = nil; $0.nextRetry = nil }
+            guard register(task,record:record) else { task.cancel(); return }
             task.resume()
         } catch { fail(record.id,error:error) }
+    }
+    private func register(_ task: URLSessionTask, record: FileTransfer) -> Bool {
+        lock.lock(); defer { lock.unlock() }
+        guard let i=records.firstIndex(where:{$0.id==record.id}), records[i].state=="正在连接" else { return false }
+        records[i].taskID=task.taskIdentifier; records[i].state=record.upload ? "正在上传" : "下载到手机"
+        records[i].failure=nil; records[i].nextRetry=nil; persistLocked()
+        return true
     }
     func retryable(serverID: UUID) -> [FileTransfer] {
         lock.lock(); defer { lock.unlock() }
@@ -116,6 +124,7 @@ final class TransferManager: NSObject, ObservableObject, URLSessionTaskDelegate,
     }
     func remove(_ record: FileTransfer) {
         if record.taskID != nil { cancel(record) }
+        if record.upload, let path=record.localPath { try? FileManager.default.removeItem(atPath:path) }
         lock.lock(); records.removeAll { $0.id == record.id }; persistLocked(); lock.unlock()
     }
     func prepareRetry(_ record: FileTransfer) -> FileTransfer {
@@ -155,14 +164,14 @@ final class TransferManager: NSObject, ObservableObject, URLSessionTaskDelegate,
     }
     func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
         guard let id = task.taskDescription.flatMap(UUID.init(uuidString:)) else { return }
-        if let error { fail(id,error:error); return }
-        let status = (task.response as? HTTPURLResponse)?.statusCode ?? 0
-        guard (200..<300).contains(status) else { fail(id,error:status == 401 ? CloudError.authentication : CloudError.server(status)); return }
         lock.lock()
         let body = bodies.removeValue(forKey:task.taskIdentifier)
         let saved = savedDownloads.removeValue(forKey:task.taskIdentifier)
         let record = records.first { $0.id == id }
         lock.unlock()
+        if let error { fail(id,error:error); return }
+        let status = (task.response as? HTTPURLResponse)?.statusCode ?? 0
+        guard (200..<300).contains(status) else { fail(id,error:status == 401 ? CloudError.authentication : CloudError.server(status)); return }
         if record?.upload == true {
             guard let body, let object = try? JSONSerialization.jsonObject(with:body) as? [String:Any], let code = object["code"] as? Int, code == 200 else {
                 fail(id,error:CloudError.message("服务器未确认上传成功，请检查权限和剩余空间。")); return

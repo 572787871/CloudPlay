@@ -135,7 +135,7 @@ struct TaskDetailView: View {
                         Spacer(); Button("移除任务",role:.destructive) { confirm=true }
                     }
                 }
-                if let next=item.followedBy, !next.isEmpty { Section("元数据已获取") { ForEach(next,id:\.self) { NavigationLink("打开后续文件下载任务") { TaskDetailView(gid:$0) } } } }
+                if let next=item.followedBy, !next.isEmpty { Section("元数据已获取") { ForEach(next,id:\.self) { nextID in NavigationLink("打开后续文件下载任务") { TaskDetailView(gid:nextID) } } } }
                 Section("文件选择") {
                     ForEach(item.files ?? []) { file in
                         Toggle(isOn:Binding(get:{selection.contains(file.index)},set:{if $0 {selection.insert(file.index)} else {selection.remove(file.index)}})) {

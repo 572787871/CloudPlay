@@ -35,6 +35,10 @@ end
    c.build_settings['ENABLE_USER_SCRIPT_SANDBOXING'] = 'NO'
  end
 end
+fixtures=project.main_group['Tests'].new_group('Fixtures','Fixtures')
+['generated.mp4','generated.mkv'].each do |name|
+ tests.resources_build_phase.add_file_reference(fixtures.new_file(name))
+end
 resources=project.main_group.new_group('Resources', 'App/Resources')
 ['Assets.xcassets','ThirdPartyNotices.txt','LGPL-2.1.txt'].each do |name|
  app.resources_build_phase.add_file_reference(resources.new_file(name))

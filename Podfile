@@ -3,6 +3,9 @@ install! 'cocoapods', :deterministic_uuids => true
 project 'CloudPlay.xcodeproj'
 target 'CloudPlay' do
   pod 'MobileVLCKit', '3.7.5'
+  target 'CloudPlayTests' do
+    inherit! :search_paths
+  end
 end
 post_install do |installer|
   installer.pods_project.targets.each do |target|
