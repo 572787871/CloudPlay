@@ -76,12 +76,8 @@ embed.dst_subfolder_spec='13'
 ref=embed.add_file_reference(share.product_reference)
 ref.settings={'ATTRIBUTES'=>['RemoveHeadersOnCopy']}
 notices=app.new_shell_script_build_phase('Copy upstream license acknowledgements')
-notices.shell_script='set -eu
-license="${PODS_ROOT}/Target Support Files/Pods-CloudPlay/Pods-CloudPlay-acknowledgements.plist"
-test -f "$license" || { echo "error: Missing upstream license acknowledgements" >&2; exit 1; }
-cp "$license" "${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/PodsAcknowledgements.plist"
-'
-notices.input_paths=['$(PODS_ROOT)/Target Support Files/Pods-CloudPlay/Pods-CloudPlay-acknowledgements.plist']
+notices.shell_script='"${SRCROOT}/Scripts/copy_notices.sh"'
+notices.input_paths=['$(SRCROOT)/Scripts/copy_notices.sh','$(PODS_ROOT)/Target Support Files/Pods-CloudPlay/Pods-CloudPlay-acknowledgements.plist']
 notices.output_paths=['$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/PodsAcknowledgements.plist']
 project.save
 scheme=Xcodeproj::XCScheme.new

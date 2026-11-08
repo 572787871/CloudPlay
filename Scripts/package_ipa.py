@@ -18,6 +18,9 @@ def main():
     arch=subprocess.check_output(['xcrun','lipo','-archs',str(executable)],text=True)
     assert 'arm64' in arch
     assert (a.app/'PlugIns/CloudPlayShare.appex').is_dir(),'缺少分享扩展'
+    assert (a.app/'LGPL-2.1.txt').is_file() and (a.app/'ThirdPartyNotices.txt').is_file(),'缺少许可证'
+    notices=plistlib.loads((a.app/'PodsAcknowledgements.plist').read_bytes())
+    assert any(x.get('Title')=='MobileVLCKit' for x in notices['PreferenceSpecifiers']),'缺少 SDK 上游声明'
     # MobileVLCKit may be statically linked. A dynamic dylib must resolve inside the app/system.
     dependencies=subprocess.check_output(['xcrun','otool','-L',str(executable)],text=True)
     for line in dependencies.splitlines()[1:]:

@@ -410,6 +410,7 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
+				"$(SRCROOT)/Scripts/copy_notices.sh",
 				"$(PODS_ROOT)/Target Support Files/Pods-CloudPlay/Pods-CloudPlay-acknowledgements.plist",
 			);
 			name = "Copy upstream license acknowledgements";
@@ -420,7 +421,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "set -eu\nlicense=\"${PODS_ROOT}/Target Support Files/Pods-CloudPlay/Pods-CloudPlay-acknowledgements.plist\"\ntest -f \"$license\" || { echo \"error: Missing upstream license acknowledgements\" >&2; exit 1; }\ncp \"$license\" \"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/PodsAcknowledgements.plist\"\n";
+			shellScript = "\"${SRCROOT}/Scripts/copy_notices.sh\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
