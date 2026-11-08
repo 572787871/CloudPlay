@@ -8,7 +8,7 @@ struct RootView: View {
     var body: some View {
         TabView(selection:$tab) {
             NavigationStack { FilesView(path:"/") }.id(store.selectedID).tabItem { Label("云盘",systemImage:"externaldrive.fill.badge.icloud") }.tag(0)
-            NavigationStack { DownloadsView(active:tab==1 && phase == .active) }.tabItem { Label("下载",systemImage:"arrow.down.circle") }.tag(1)
+            NavigationStack { DownloadsView(active:tab==1 && phase == .active) }.id(store.selectedID).tabItem { Label("下载",systemImage:"arrow.down.circle") }.tag(1)
             NavigationStack { HistoryView() }.tabItem { Label("播放",systemImage:"play.rectangle") }.tag(2)
             NavigationStack { SettingsView() }.tabItem { Label("设置",systemImage:"gearshape") }.tag(3)
         }

@@ -6,11 +6,11 @@ on:
 permissions:
   contents: read
 concurrency:
-  group: cloudplay-ios-${{ github.ref }}
+  group: cloudplay-ios-intel-${{ github.ref }}
   cancel-in-progress: true
 jobs:
   build:
-    runs-on: macos-26
+    runs-on: macos-26-intel
     timeout-minutes: 50
     steps:
       - uses: actions/checkout@v4

@@ -42,7 +42,7 @@ final class TransferManager: NSObject, ObservableObject, URLSessionTaskDelegate,
             guard let self else { return }
             let identifiers = Set(tasks.compactMap(\.taskDescription))
             self.lock.lock()
-            for i in self.records.indices where self.records[i].taskID != nil && !identifiers.contains(self.records[i].id.uuidString) {
+            for i in self.records.indices where (self.records[i].taskID != nil || self.records[i].state == "正在连接") && !identifiers.contains(self.records[i].id.uuidString) {
                 self.records[i].taskID = nil
                 self.records[i].state = "等待重试"
                 self.records[i].nextRetry = Date()
@@ -77,8 +77,16 @@ final class TransferManager: NSObject, ObservableObject, URLSessionTaskDelegate,
         lock.lock(); records.insert(record,at:0); persistLocked(); lock.unlock()
         return record
     }
-    func start(_ record: FileTransfer, client: OpenListClient, cellular: Bool) async {
-        update(record.id) { $0.attempts += 1 }
+    private func claim(_ id: UUID) -> FileTransfer? {
+        lock.lock(); defer { lock.unlock() }
+        guard let i=records.firstIndex(where:{$0.id==id}), records[i].taskID==nil,
+              !["正在连接","已完成","已取消"].contains(records[i].state) else { return nil }
+        let previous=records[i]
+        records[i].state="正在连接"; records[i].attempts += 1; persistLocked()
+        return previous
+    }
+    func start(_ candidate: FileTransfer, client: OpenListClient, cellular: Bool) async {
+        guard let record=claim(candidate.id) else { return }
         do {
             let task: URLSessionTask
             if record.upload {
@@ -112,7 +120,7 @@ final class TransferManager: NSObject, ObservableObject, URLSessionTaskDelegate,
     }
     func prepareRetry(_ record: FileTransfer) -> FileTransfer {
         var next = record; next.attempts = 0; next.taskID = nil
-        update(record.id) { $0.attempts = 0; $0.failure = nil }
+        update(record.id) { $0.attempts = 0; $0.failure = nil; $0.state = "等待重试" }
         return next
     }
     private func fail(_ id: UUID, error: Error) {
