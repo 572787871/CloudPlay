@@ -2,7 +2,9 @@
 
 面向个人的原生 iOS 私人云盘与离线下载项目。免费组件采用 **OpenList、Aria2、Caddy**，服务器为 Oracle Cloud ARM64。仅处理自己有权下载、存储和播放的资源。
 
-服务器与原生 iOS MVP 已完成。SwiftUI 云盘、Aria2 下载、AVPlayer/VLCKit 播放、文件管理、后台传输与播放历史均使用真实接口。iOS arm64 已编译并生成供个人签名的未签名 IPA，ARM 和 Intel 模拟器各 16 项测试通过。真机和 iOS 27 尚未实测。
+服务器与原生 iOS MVP 已完成。SwiftUI 云盘、Aria2 下载、AVPlayer/VLCKit 播放、文件管理、后台传输与播放历史均使用真实接口。iOS arm64 已编译并生成供个人签名的未签名 IPA，已有 ARM 和 Intel 模拟器测试记录。真机和 iOS 27 尚未实测。
+
+1.0.1 修复网页离线任务的文件定位和播放入口。已有网页任务可在“云盘 → 下载 → 网页离线 → 任务目录”访问；完成的视频任务提供“播放视频”。
 
 [下载 IPA、源码和测试日志](https://github.com/572787871/CloudPlay/releases/latest)
 

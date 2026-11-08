@@ -57,6 +57,8 @@
 - 新挂载下用独立自生成字节文件验证实际 HTTPS 签名 URL、长度、三个 Range 206（含文件尾）、HEAD 和越界 416，通过后删除自有测试目录。
 - 对原已完成视频仅检查文件元数据，OpenList 文件大小与 Aria2 的总长度/已完成长度相符；没有下载或播放用户媒体内容。
 - Linux：11 项 Python 单元测试通过（原 7 项备份安全测试 + 4 项下载挂载防冲突/幂等测试），脚本 compileall 通过。
-- 新增 iOS 回归测试覆盖原生/网页任务路径、Unicode/层级保留、路径前缀边界/穿越拒绝、未完成/未选中/元数据不可播放、缓存解析、转存后回退、权限及长度不符拒绝。此处仅记录已添加；运行结果在 CI 完成后补充。
+- [1.0.1 服务端 CI](https://github.com/572787871/CloudPlay/actions/runs/42494404228)：11 项单元测试、脚本检查、实际 ARM64 镜像拉取与 Aria2 构建通过。
+- [1.0.1 iOS CI](https://github.com/572787871/CloudPlay/actions/runs/42494404233)：源码 `83814cc` 已通过 iPhoneOS arm64 Release 编译、扩展和依赖校验并生成未签名 IPA；版本 1.0.1 (2)。
+- 新增 iOS 回归测试覆盖原生/网页任务路径、Unicode/层级保留、路径前缀边界/穿越拒绝、未完成/未选中/元数据不可播放、缓存解析、转存后回退、权限及长度不符拒绝。实际在 iPhone 17 Pro / iOS 26.5 arm64 模拟器运行：23 项共 21 通过、0 失败、2 跳过；7 项新增回归全部通过。两项真实 VPS Swift 联调因未配置临时 CI 凭据明确跳过，本次另外执行的 VPS 目录/Range 验证记录见 [web-offline-regression.log](evidence/web-offline-regression.log)。真实本地 MP4/MKV 播放/Seek 和两项 UI 测试通过；没有将其冒充 iPhone 真机验证。
 
 上游行为核对：[AddURL 策略](https://github.com/OpenListTeam/OpenList/blob/v4.2.9/internal/offline_download/tool/add.go)、[转存实现](https://github.com/OpenListTeam/OpenList/blob/v4.2.9/internal/offline_download/tool/transfer.go)。本次没有修改 OpenList 上游镜像；网页添加磁力时仍须选择普通转存策略，详情见服务器 README。

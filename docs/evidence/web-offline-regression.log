@@ -1,0 +1,8 @@
+已添加下载目录：/下载/网页离线
+共享下载目录检查通过；原文件和 Aria2 任务均未移动。
+共享下载目录检查通过；原文件和 Aria2 任务均未移动。
+PASS download folder exposes web-offline mount
+PASS authenticated temporary file lookup, exact length, 3 HTTPS ranges including tail
+PASS web-offline HEAD and 416
+PASS existing completed video files now accessible, count=1
+PASS isolated fixture removed; existing torrent files and tasks preserved
