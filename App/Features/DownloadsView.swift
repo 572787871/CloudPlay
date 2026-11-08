@@ -128,7 +128,7 @@ struct TaskDetailView: View {
                     Text(item.stateText)
                     if item.total>0 { ProgressView(value:item.progress); Text("\(Format.bytes(item.completed)) / \(Format.bytes(item.total))") }
                     Text("↓ \(Format.bytes(item.speed))/s · 剩余 \(item.eta)").font(.caption)
-                    if let code=item.errorCode { Text(code=="9" ? "服务器磁盘空间不足。" : "下载器错误代码：\(code)").foregroundStyle(.orange) }
+                    if let code=item.errorCode, code != "0" { Text(code=="9" ? "服务器磁盘空间不足。" : "下载器错误代码：\(code)").foregroundStyle(.orange) }
                     HStack {
                         if item.status=="active" || item.status=="waiting" { Button("暂停") { act("pause") } }
                         if item.status=="paused" { Button("继续下载") { act("unpause") } }

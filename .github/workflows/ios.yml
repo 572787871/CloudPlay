@@ -40,7 +40,7 @@ jobs:
           path: build/CloudPlay-unsigned.ipa
           if-no-files-found: error
   tests:
-    runs-on: macos-26-intel
+    runs-on: macos-26
     timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4

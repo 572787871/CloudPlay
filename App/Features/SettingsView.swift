@@ -8,7 +8,16 @@ struct SettingsView: View {
     @State private var editing: ServerProfile?
     @AppStorage("appearance") private var appearance="system"
     @AppStorage("cellular") private var cellular=true
-    private static var notices: String { ["ThirdPartyNotices","LGPL-2.1"].compactMap { name in Bundle.main.url(forResource:name,withExtension:"txt").flatMap { try? String(contentsOf:$0,encoding:.utf8) } }.joined(separator:"\n\n") }
+    private static var notices: String {
+        var sections=["ThirdPartyNotices"].compactMap { name in Bundle.main.url(forResource:name,withExtension:"txt").flatMap {try? String(contentsOf:$0,encoding:.utf8)} }
+        if let url=Bundle.main.url(forResource:"PodsAcknowledgements",withExtension:"plist"),
+           let data=try? Data(contentsOf:url), let object=try? PropertyListSerialization.propertyList(from:data,format:nil) as? [String:Any],
+           let entries=object["PreferenceSpecifiers"] as? [[String:Any]] {
+            sections += entries.compactMap { entry in guard let text=entry["FooterText"] as? String else {return nil}; return ((entry["Title"] as? String) ?? "")+"\n"+text }
+        } else if let url=Bundle.main.url(forResource:"LGPL-2.1",withExtension:"txt"), let text=try? String(contentsOf:url,encoding:.utf8) {sections.append(text)}
+        return sections.joined(separator:"\n\n")
+    }
+
     var body: some View {
         Form {
             if store.profiles.isEmpty {

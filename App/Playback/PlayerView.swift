@@ -64,7 +64,7 @@ struct PlayerView: View {
         }.preferredColorScheme(.dark).foregroundStyle(.white)
         .onAppear {model.configure(store:store,request:request)}
         .onDisappear {model.stop()}
-        .fileImporter(isPresented:$subtitleImport,allowedContentTypes:[UTType(filenameExtension:"srt") ?? .plainText,UTType(filenameExtension:"ass") ?? .plainText,.plainText]) {result in
+        .fileImporter(isPresented:$subtitleImport,allowedContentTypes:[.item]) {result in
             do {let file=try result.get();try model.addSubtitle(file)} catch {model.failure=CloudError.friendly(error)}
         }
     }

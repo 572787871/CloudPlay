@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "A062C1FA0A5DF1B6364F2FD3"
+               BlueprintIdentifier = "111C740AC0480C6696C5B52D"
                BuildableName = "CloudPlay.app"
                BlueprintName = "CloudPlay"
                ReferencedContainer = "container:CloudPlay.xcodeproj">
@@ -30,7 +30,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "A062C1FA0A5DF1B6364F2FD3"
+            BlueprintIdentifier = "111C740AC0480C6696C5B52D"
             BuildableName = "CloudPlay.app"
             BlueprintName = "CloudPlay"
             ReferencedContainer = "container:CloudPlay.xcodeproj">
@@ -41,7 +41,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "CBDA036294D38B08DCD6F905"
+               BlueprintIdentifier = "B1A7D3D66F3897D10F787A8F"
                BuildableName = "CloudPlayTests.xctest"
                BlueprintName = "CloudPlayTests"
                ReferencedContainer = "container:CloudPlay.xcodeproj">
@@ -51,7 +51,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "758FE0CF93549831E4B4E4CA"
+               BlueprintIdentifier = "0F7C9E2231B7B593DFF1708E"
                BuildableName = "CloudPlayUITests.xctest"
                BlueprintName = "CloudPlayUITests"
                ReferencedContainer = "container:CloudPlay.xcodeproj">
@@ -73,7 +73,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "A062C1FA0A5DF1B6364F2FD3"
+            BlueprintIdentifier = "111C740AC0480C6696C5B52D"
             BuildableName = "CloudPlay.app"
             BlueprintName = "CloudPlay"
             ReferencedContainer = "container:CloudPlay.xcodeproj">
@@ -90,7 +90,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "A062C1FA0A5DF1B6364F2FD3"
+            BlueprintIdentifier = "111C740AC0480C6696C5B52D"
             BuildableName = "CloudPlay.app"
             BlueprintName = "CloudPlay"
             ReferencedContainer = "container:CloudPlay.xcodeproj">

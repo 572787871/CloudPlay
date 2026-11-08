@@ -30,7 +30,7 @@ import Combine
     struct Track: Identifiable { let id: Int32; let name: String }
     override init() { super.init(); vlc.delegate=self }
     func configure(store: AppStore, request: PlaybackRequest) {
-        self.store=store; self.request=request; seconds=request.resume
+        self.store=store; self.request=request; seconds=request.resume; duration=0; refreshes=0; saveTick=0
         engine=["mkv","avi","webm","ts","m2ts"].contains((request.name as NSString).pathExtension.lowercased()) ? "兼容" : "系统"
         open(at:request.resume)
     }
@@ -99,6 +99,7 @@ import Combine
     func setRate(_ value: Float) { rate=value; if engine=="系统" {if playing {avPlayer?.rate=value}} else {vlc.rate=value} }
     func addSubtitle(_ source: URL) throws {
         let scope=source.startAccessingSecurityScopedResource();defer {if scope {source.stopAccessingSecurityScopedResource()}}
+        guard ["srt","ass","ssa","vtt","sub"].contains(source.pathExtension.lowercased()) else {throw CloudError.message("请选择 SRT、ASS、SSA、VTT 或 SUB 字幕文件。")}
         guard (try source.resourceValues(forKeys:[.fileSizeKey]).fileSize ?? 0)<10*1024*1024 else {throw CloudError.message("字幕文件超过 10 MB。")}
         let url=LocalFiles.directory("Subtitles").appendingPathComponent(UUID().uuidString+"-"+source.lastPathComponent)
         try FileManager.default.copyItem(at:source,to:url); pendingSubtitle=url
@@ -146,7 +147,8 @@ import Combine
         vlc.stop();audio=[];subtitles=[]
     }
     func stop() {
-        save();loader?.cancel();generation=UUID();releasePlayer();vlc.drawable=nil
+        save();loader?.cancel();generation=UUID();releasePlayer();vlc.drawable=nil;pendingSubtitle=nil
         try? AVAudioSession.sharedInstance().setActive(false,options:.notifyOthersOnDeactivation)
+        try? FileManager.default.removeItem(at:LocalFiles.directory("Subtitles"))
     }
 }
